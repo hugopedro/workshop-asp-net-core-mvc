@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SalesWebMvc.Models.Department>
+<!--IEnumerable é uma coleção genérica basica, aqui se trata de uma coleção de departamentos-->
+@{
+    ViewData["Title"] = "Departments"; // departments é definido pra chave viewdata
+}
+
+<h2>Departments</h2>
+
+<p> <!-- o asp action é um tag helper que cria automaticamente um link apontando para a ação create deste controlador(controlador departamentos, que é dessa pagina)-->
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <!--DisplayNameFor monta os cabeçalhos(id.. etc), essa operação recebe uma expressao lambda, essa expressao lamba serve pra selecionar qual é o dado do meu model que eu vou querer exibir aqui no meu cabeçalho-->
+                @Html.DisplayNameFor(model => model.Id) <!--no caso esse model é justamente a minha lista  IEnumerable<SalesWebMvc.Models.Department>-->
+            </th>                           <!-- O compilador ajuda mostrando quais objetos disponiveis(.Id ... .Name)-->
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) { <!--fez um for em uma colecao, no caso a colecao era o model-->
+        <tr> <!-- entao eu dou um foreach dessa coleção chamando cada elemento de item , mas só pode usar "item" dentro das chaves-->
+            <!--ele pega justamente dessa coleção IEnumerable<SalesWebMvc.Models.Department> que veio no meu controlador-->
+            <td>
+                <!--DisplayFor monta as linhas , esse item veio do arroba foreach -->
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td> <!-- a ferramenta criou links para as ações de editar details e deletar-->
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
