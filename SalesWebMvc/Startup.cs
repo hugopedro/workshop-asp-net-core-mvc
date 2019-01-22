@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Models;
+using SalesWebMvc.Data;
 
 namespace SalesWebMvc
 {
@@ -35,18 +36,22 @@ namespace SalesWebMvc
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-                                                                
-            services.AddDbContext<SalesWebMvcContext>(options => 
+
+            services.AddDbContext<SalesWebMvcContext>(options =>
              options.UseMySql(Configuration.GetConnectionString("SalesWebMvcContext"), builder =>
             builder.MigrationsAssembly("SalesWebMvc")));      // ^ eh o q ta na pastinha data
-        }                               // ^ nome do projeto
+            services.AddScoped<SeedingService>();//^ nome do projeto // só vai rolar a linha 49 pq adicionei o escopo aqui!
+            // ^isso regista o nosso serviço no sistema de controle de dependencia da aplicação.
+        }                               
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService) //adicionei o SeedingService, só rolou por causa da linha 43 (adicionei o escopo)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment()) // se eu estiver no meu perfil de desenvolvimento vou rodar o SeedingService
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();
             }
             else
             {
