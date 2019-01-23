@@ -1,0 +1,39 @@
+﻿@model SalesWebMvc.Models.Seller
+<!--^ISSO SIGNIFICA QUE A MINHA VIEW VAI TER DIREITO AOS ATRIBUTOS DO SELLER, EX: Name-->
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!-- fazendo o html da view create-->
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Seller</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <form asp-action="Create">
+        <!-- ação create com o método post-->
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate" class="control-label"></label>
+            <input asp-for="BirthDate" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Salary" class="control-label"></label>
+            <input asp-for="Salary" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </form>
+</div>
+
