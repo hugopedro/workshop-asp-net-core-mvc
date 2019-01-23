@@ -23,6 +23,7 @@ namespace SalesWebMvc.Services
 
         public void Insert(Seller obj)
         { // método pra poder exibir um seller, é bem simples no entity framework
+            obj.Department = _context.Department.First();
             _context.Add(obj);
             _context.SaveChanges();
         }
