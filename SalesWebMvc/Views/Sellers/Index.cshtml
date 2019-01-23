@@ -1,8 +1,65 @@
-﻿
+﻿@model IEnumerable<SalesWebMvc.Models.Seller>
+<!--a  primeira coisa a se fazer é declarar aqui o objeto model, esse objeto model vai corresponder
+    ao objeto list que passamos por argumento no método view, que no caso vai ser uma lista de seller
+    (SellersController.cs linha 24)
+    então ali do lado do model foi declarado o tipo do objeto, que vai receber um IEnumerable, que é
+    um tipo de coleção bem genérico pra ele aceitar tanto lista quanto conjunto etc, e esse IEnumerable
+    será do tipo SalesWebMvc.Models.Seller (ou seja, será uma lista de Seller)
+    -->
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sellers";
 }
 
-<h2>Sellers</h2>
+<h2>@ViewData["Title"]</h2>
 
-<p>Sellers index page</p>
+<p>
+    <!--ali o model. aceita apenas dados que existem na classe-->
+    <a asp-action="Create" class="btn btn-default">Create New</a>
+</p>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr class="success">
+            <th>
+                <!--ali o model. aceita apenas dados que existem na classe-->
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+
+</table>
