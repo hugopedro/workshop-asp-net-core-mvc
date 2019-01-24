@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Models;
+using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Services;
 
 namespace SalesWebMvc.Controllers
@@ -12,10 +13,12 @@ namespace SalesWebMvc.Controllers
     {
 
         private readonly SellerService _sellerService;
+        private readonly DepartmentService _departmentService;
 
-        public SellersController(SellerService sellerservice)
+        public SellersController(SellerService sellerservice, DepartmentService departmentService)
         { // injeção de dependencia
             _sellerService = sellerservice;
+            _departmentService = departmentService;
         }
 
         public IActionResult Index()
@@ -27,12 +30,14 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var departments = _departmentService.FindAll(); // busca no banco todos os departamentos
+            var viewModel = new SellerFormViewModel { Departments = departments };
+            return View(viewModel); // quando a tela de cadastro for acionada ele ja vai receber os departamentos!
         }
 
         [HttpPost] // o método de inserir tem q ser post por isso isso ta aqui
         [ValidateAntiForgeryToken] // é pra previnir ataques CSRF(Quando alguem aproveita a seção de autenticação e envia malware aproveitando a autenticação)
-        public IActionResult Create(Seller seller)
+        public IActionResult Create(Seller seller) // só funfou pq criei no Seller.cs o DepartmentId!
         {
             _sellerService.Insert(seller);
             //redirecionar a requisição pra index(tela principal)

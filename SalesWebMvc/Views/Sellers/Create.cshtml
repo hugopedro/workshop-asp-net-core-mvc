@@ -1,4 +1,4 @@
-﻿@model SalesWebMvc.Models.Seller
+﻿@model SalesWebMvc.Models.ViewModels.SellerFormViewModel;
 <!--^ISSO SIGNIFICA QUE A MINHA VIEW VAI TER DIREITO AOS ATRIBUTOS DO SELLER, EX: Name-->
 @{
     ViewData["Title"] = "Create";
@@ -16,20 +16,26 @@
     <form asp-action="Create">
         <!-- ação create com o método post-->
         <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+            <label asp-for="Seller.Name" class="control-label"></label> <!--antes era só name, mas fiz o SellerFormViewModel entao ficou seller.Atributo-->
+            <input asp-for="Seller.Name" class="form-control" />
         </div>
         <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <label asp-for="Seller.Email" class="control-label"></label>
+            <input asp-for="Seller.Email" class="form-control" />
         </div>
         <div class="form-group">
-            <label asp-for="BirthDate" class="control-label"></label>
-            <input asp-for="BirthDate" class="form-control" />
+            <label asp-for="Seller.BirthDate" class="control-label"></label>
+            <input asp-for="Seller.BirthDate" class="form-control" />
         </div>
         <div class="form-group">
-            <label asp-for="Salary" class="control-label"></label>
-            <input asp-for="Salary" class="form-control" />
+            <label asp-for="Seller.Salary" class="control-label"></label>
+            <input asp-for="Seller.Salary" class="form-control" />
+        </div>
+        <div class="form-group">
+            <!-- esse componente monta a caixinha de seleção do departamento, é o select asp-for e asp-items que vai construir os items da caixinha de coleção com base nos items que eu passar-->
+            <label asp-for="Seller.DepartmentId" class="control-label"></label> <!--no SelectList sao 3 argumentos, o primeiro é a fonte de dados dessa coleção(no caso departamentos), o segundo arg é pra pegar o atributo chave de cada objeto de departamento, e o terceiro argumento é qual atributo do objeto vai aparecer na caixinha, no caso é o nome!!-->
+            <select asp-for="Seller.DepartmentId" asp-items="@(new SelectList(Model.Departments,"Id",
+"Name"))" class="form-control"></select>
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-default" />

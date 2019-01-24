@@ -44,6 +44,7 @@ namespace SalesWebMvc
             services.AddScoped<SeedingService>();//^ nome do projeto // só vai rolar a linha 49 pq adicionei o escopo aqui!
             // ^isso regista o nosso serviço no sistema de controle de dependencia da aplicação.
             services.AddScoped<SellerService>(); // com isso o nosso serviço pode ser injetado em outras classes
+            services.AddScoped<DepartmentService>();
         }                               
         
 
