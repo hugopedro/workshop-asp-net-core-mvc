@@ -44,5 +44,26 @@ namespace SalesWebMvc.Controllers
             return RedirectToAction(nameof(Index)); //nameof(Index) melhora a manutenção do sistema pq se algum dia mudar o nome do string da linha 21 nao vai ter que mudar nada!
         }
 
+        public IActionResult Delete(int? id) //o ? significa que o int é opcional
+        {
+            if (id == null) // se o id for nulo quer dizer que a requisição foi feita de uma forma indevida
+            {
+                return NotFound(); // deixar o notefound sem nada gera uma pagina de erro basica
+            }
+
+            var obj = _sellerService.FindById(id.Value); // tem q por .value pq ele é um nullable(objeto opcional) 
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id) // esse método é pro botao de delete funfar
+        {
+            _sellerService.Remove(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
