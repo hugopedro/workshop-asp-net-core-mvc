@@ -65,5 +65,20 @@ namespace SalesWebMvc.Controllers
             _sellerService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+        public IActionResult Details(int? id)
+        {
+
+            if (id == null) // se o id for nulo quer dizer que a requisição foi feita de uma forma indevida
+            {
+                return NotFound(); // deixar o notefound sem nada gera uma pagina de erro basica
+            }
+
+            var obj = _sellerService.FindById(id.Value); // tem q por .value pq ele é um nullable(objeto opcional) 
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
     }
 }
