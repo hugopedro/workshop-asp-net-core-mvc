@@ -28,13 +28,15 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SalesWebMvc</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse"> <!--aqui é a barra de navegação principal-->
                 <ul class="nav navbar-nav"> <!-- criando links para chamar o controlador-->
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Departments" asp-action="Index">Departments</a></li> <!--asp-controller="Departments" tem q ficar igualzinho ao do controller-->
                     <li><a asp-area="" asp-controller="Sellers" asp-action="Index">Sellers</a></li>
+                    <li><a asp-area="" asp-controller="SalesRecords" asp-action="Index">Sales</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                <!--entao é assim: nome do controlador e a ação com o nome-->
                 </ul>
             </div>
         </div>
