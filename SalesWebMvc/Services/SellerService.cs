@@ -37,9 +37,16 @@ namespace SalesWebMvc.Services
 
         public async Task RemoveAsync(int id)
         {
-            var obj = await _context.Seller.FindAsync(id);
-            _context.Seller.Remove(obj);
-            await _context.SaveChangesAsync();
+            try // esse try catch eh pra poder ser tratato erros de integridade referencial(atributo preso a chave estrangeira)
+            {
+                var obj = await _context.Seller.FindAsync(id);
+                _context.Seller.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException("Nao posso deletar o vendedor porque ele tem vendas");
+            }
         }
 
         public async Task UpdateAsync(Seller obj)

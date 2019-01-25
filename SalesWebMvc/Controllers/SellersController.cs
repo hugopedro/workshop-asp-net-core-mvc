@@ -70,8 +70,14 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id) // esse método é pro botao de delete funfar
         {
-            await _sellerService.RemoveAsync(id);
-            return RedirectToAction(nameof(Index));
+            try // esse try catch eh pra poder ser tratato erros de integridade referencial(atributo preso a chave estrangeira)
+            {
+                await _sellerService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException e) {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
         public async Task<IActionResult> Details(int? id)
         {
