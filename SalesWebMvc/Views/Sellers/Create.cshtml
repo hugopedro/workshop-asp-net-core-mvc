@@ -14,22 +14,29 @@
 <div class="row">
     <div class="col-md-4"></div>
     <form asp-action="Create">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <!-- ação create com o método post-->
         <div class="form-group">
             <label asp-for="Seller.Name" class="control-label"></label> <!--antes era só name, mas fiz o SellerFormViewModel entao ficou seller.Atributo-->
             <input asp-for="Seller.Name" class="form-control" />
+            <span asp-validation-for="Seller.Name" class="text-danger"></span> <!-- serve pra na hora de digitar nos campos mostrar mensagemzinhas de validação embaixo-->
         </div>
         <div class="form-group">
             <label asp-for="Seller.Email" class="control-label"></label>
             <input asp-for="Seller.Email" class="form-control" />
+            <span asp-validation-for="Seller.Email" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Seller.BirthDate" class="control-label"></label>
             <input asp-for="Seller.BirthDate" class="form-control" />
+            <span asp-validation-for="Seller.BirthDate" class="text-danger"></span>
+            -
         </div>
         <div class="form-group">
             <label asp-for="Seller.Salary" class="control-label"></label>
             <input asp-for="Seller.Salary" class="form-control" />
+            <span asp-validation-for="Seller.Salary" class="text-danger"></span>
+
         </div>
         <div class="form-group">
             <!-- esse componente monta a caixinha de seleção do departamento, é o select asp-for e asp-items que vai construir os items da caixinha de coleção com base nos items que eu passar-->
@@ -41,5 +48,8 @@
             <input type="submit" value="Create" class="btn btn-default" />
         </div>
     </form>
-</div>
+</div> <!-- o codigo abaixo é pra poder funcionar a validação da linha 17-->
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

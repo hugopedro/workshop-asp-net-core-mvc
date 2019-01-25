@@ -8,16 +8,24 @@ namespace SalesWebMvc.Models
     public class Seller
     {
         public int Id { get; set; }
-        public string Name { get; set; }
 
+        [Required(ErrorMessage = "{0} Requerido")] // faz com que o campo seja obrigatorio digitar antes de enviar
+        [StringLength(60, MinimumLength= 3, ErrorMessage ="{0} deve ser entre {2} e {1}")] // os numeros das chaves sao definidos pela ordem dos parametros DESSA linha
+        public string Name { get; set; } // o {0} pega automaticamente o nome do atributo(no caso é o nome)
+
+        [Required(ErrorMessage = "{0} Requerido")]
+        [EmailAddress(ErrorMessage = "Enter a valid email")]
         [DataType(DataType.EmailAddress)] // isso serve pra deixar os emails hyperlinkados
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "{0} Requerido")]
         [Display(Name = "Birth Date")] // esse tipo de anotação serve pra customizar o que vai aparecer no display(na pagina)
         [DataType(DataType.Date)] // isso tira a hora e minuto que é desnecessário
         [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}")] // serve pra ordenar em dia/mes/ano que nem no br
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "{0} Requerido")]
+        [Range(100.0, 50000.0, ErrorMessage = "{0} must be from {1} to {2}")] // o salario deve ser no minimo 100 e no max 50k
         [Display(Name = "Base Salary")]
         [DisplayFormat(DataFormatString ="{0:F2}")] // faz com que numeros tenham duas casas decimais
         public double Salary { get; set; }
