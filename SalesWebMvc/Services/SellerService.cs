@@ -17,34 +17,35 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Seller> FindAll()
+        public async Task<List<Seller>> FindAllAsync()
         { // implementar uma operação no Entity Framework pra retornar no banco de dados todos os vendedores
-            return _context.Seller.ToList(); // Isso irá acessar a fonte de dados contido na tabela vendedores e converter isso para uma lista
+            return await _context.Seller.ToListAsync(); // Isso irá acessar a fonte de dados contido na tabela vendedores e converter isso para uma lista
 
         }
-
-        public void Insert(Seller obj) //aqui o objeto seller está devidamento instanciado já com o departamento
+        // era public void Insert, ja que virou asincrona fica public async Task, tira o void e poe Task
+        public async Task InsertAsync(Seller obj) //aqui o objeto seller está devidamento instanciado já com o departamento
         { // método pra poder exibir um seller, é bem simples no entity framework
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(); // é só aqui que vai ter o Async pq é ela que faz a alteraçaõ no banco de dados!
         }
 
-        public Seller FindById(int id) // encontrar o vendedor por id
+        public async Task<Seller> FindByIdAsync(int id) // encontrar o vendedor por id
         {   // aqui é pra ele puxar o ID do vendedor tbm, entao aparece o nome do departamento referente nos detalhes!
             // é assim que se fazer o "eager loading" que significa carregar objetos relacionados ao objeto principal!
-            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);
-        }
+            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
+        }                           // O QUE EXECUTA DE FATO O BANCO DE DADOS É O FirstOrDefault, por isso puis Async
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Seller.Find(id);
+            var obj = await _context.Seller.FindAsync(id);
             _context.Seller.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
-            if (!_context.Seller.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)
             {                //testando se o id já existe no banco, ja que tamos atualizando o id do objeto tem que existir
                 //se nao existir...
                 throw new NotFoundException("Id não encontrando");
@@ -52,7 +53,7 @@ namespace SalesWebMvc.Services
             try
             {
                 _context.Update(obj); // atualizando o objeto utilizando entity framework
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbConcurrencyException e ) // Interceptando uma exceção do nivel de acesso a dados
             {

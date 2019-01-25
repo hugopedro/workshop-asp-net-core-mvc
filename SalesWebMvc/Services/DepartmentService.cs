@@ -1,6 +1,8 @@
 ﻿using SalesWebMvc.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMvc.Services
 {
@@ -16,10 +18,11 @@ namespace SalesWebMvc.Services
         }
 
         //método pra retornar todos os departamentos
-        public List<Department> FindAll()
-        {
-            return _context.Department.OrderBy(x => x.Name).ToList();
-        }
+        //método assincrono serve pra carregar pequenas coisas mais rapida
+        public async Task<List<Department>> FindAllAsync() //retorna um Task<List<Department>>
+        { // pra tudo isso funfar tem que importar o   Microsoft.EntityFrameworkCore;
+            return await _context.Department.OrderBy(x => x.Name).ToListAsync(); // Expressoes LINQ só vao ser executadas quando chamamos outra coisa que provoca a execução dela, no caso é a chamada .ToList
+        } //ToList executa a consulta e transforma o resultado para List
 
     }
 }
