@@ -47,6 +47,7 @@ namespace SalesWebMvc
             // ^isso regista o nosso serviço no sistema de controle de dependencia da aplicação.
             services.AddScoped<SellerService>(); // com isso o nosso serviço pode ser injetado em outras classes
             services.AddScoped<DepartmentService>();
+            services.AddScoped<SalesRecordService>();
         }                               
         
 
